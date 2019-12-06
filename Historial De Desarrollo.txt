@@ -1,0 +1,45 @@
+Modificaremos .env para setear los datos de la base de datos
+
+Modificaremos la migracion User y crearemos la migracion Car
+
+*Como estamos creando un API REST (peticiones POST, GET, etc) debemos desactivar el middleware que comprueba la seguridad de los formularios, ya que no aplica
+en una api rest.
+Para ellos modificaremos el archivo "app\Http\Kernel.php" y comentaremos la linea "\App\Http\Middleware\VerifyCsrfToken::class" en dentro de "web" dentro de
+middlewareGroups
+
+MODELS:
+
+Crearemos el modelo Car, ya que el de User ya esta creado por defecto:
+
+php artisan make:model Car
+
+Modificaremos User y Car para establecer sus relaciones entre si.
+
+CONTROLADORES:
+
+php artisan make:controller UserController
+php artisan make:controller CarController
+
+LOGIN Y AUTH CON JWT (JSON WEB TOKENS)
+*Usaremos la libreria Firebase JWT, ya que API login de Laravel por defeto es muy simple y poco seguro.
+
+Necesitaremos instalar la libreria, por lo que modificaremos el composer.json para agregarla em "require" de la siguiente forma:
+
+"firebase/php-jwt":"^4.0"
+
+Luego, para instalarla:
+
+composer update
+
+Crearemos el Helper para el la libreria JWT. Por lo que crearemos una carpeta dentro de App llamada Helper y el archivo.
+Crearemos un service provider:
+
+php artisan make:provider JwtAuthServiceProvider
+
+Modificaremos el register para que me cargue el helper, agregando lo siguiente:
+
+require_once app_path() . '/Helpers/JwtAuthHelper.php'
+
+Y agregamos nuestro provider al archivo app/config/app.php, agregando la linea:
+
+App\Providers\JwtAuthServiceProvider::class,
