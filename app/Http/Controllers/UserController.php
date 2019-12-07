@@ -60,7 +60,7 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
-        $jwtAuthHelper = new JwtAuthHelper;
+        $jwtAuthHelper = new JwtAuthHelper();
 
         //Recojemos las variables request, debiese ser un JSON
         $json = $request->input('json',null);

@@ -69,7 +69,7 @@ class JwtAuthHelper{
             $auth = false;
         }
 
-        if($decoded && $decoded->sub){
+        if(isset($decoded) && $decoded && $decoded->sub){
             $auth = true;
         }else{
             $auth = false;
