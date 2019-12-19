@@ -6,9 +6,18 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Helpers\JwtAuthHelper;
 
+use Illuminate\Support\Facades\Log;
+
 class UserController extends Controller
 {
+
     public function register(Request $request){
+        header('Access-Control-Allow-Origin: *');
+        //header('Access-Control-Allow-Origin: *');
+        //header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
+        //header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
+        //header("Allow: GET, POST, OPTIONS, PUT, DELETE");
+
         //Recojemos las variables request, debiese ser un JSON
         $json = $request->input('json',null);
         $params = json_decode($json);
@@ -60,6 +69,7 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
+        header('Access-Control-Allow-Origin: *');
         $jwtAuthHelper = new JwtAuthHelper();
 
         //Recojemos las variables request, debiese ser un JSON

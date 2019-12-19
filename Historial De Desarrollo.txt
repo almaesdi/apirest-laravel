@@ -43,3 +43,22 @@ require_once app_path() . '/Helpers/JwtAuthHelper.php'
 Y agregamos nuestro provider al archivo app/config/app.php, agregando la linea:
 
 App\Providers\JwtAuthServiceProvider::class,
+
+CONTROLERS
+
+Se realizo el CRUD basico para Autos, Validando el TOKEN cuando corresponda
+
+
+
+
+*****************************************************
+CORS (Cross-origin resource sharing)
+
+Cuando hacemos peticiones a nuestro backend desde otro servidor (Como por ejemplo, desde nuestro framework fronted, alojado en otra dirección), nos dará un error de acceso no permitido CORS (Cross-Origin Request Blocked).
+Este error no es especifico de Laravel, si no que es un método de seguridad que se dá en las peticiones que se hagan a otro servidor y no se tenga acceso.
+Este error estará presente ya que Angular estará en otro host y otro puerto.
+Para solucionar provisoramente ( Y rapido ) agregaremos un header en los controladores para que lo retorne y no tener problemas con el frontend
+Agregamos la siguiente linea al los metodos del controlador:
+        header('Access-Control-Allow-Origin: *');
+
+La solucion elegante es hacer un middleware y que envie el header en cada peticion
