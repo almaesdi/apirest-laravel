@@ -58,7 +58,9 @@ Cuando hacemos peticiones a nuestro backend desde otro servidor (Como por ejempl
 Este error no es especifico de Laravel, si no que es un método de seguridad que se dá en las peticiones que se hagan a otro servidor y no se tenga acceso.
 Este error estará presente ya que Angular estará en otro host y otro puerto.
 Para solucionar provisoramente ( Y rapido ) agregaremos un header en los controladores para que lo retorne y no tener problemas con el frontend
-Agregamos la siguiente linea al los metodos del controlador:
-        header('Access-Control-Allow-Origin: *');
+Agregamos las siguientes lineas en el archivo bootstrap/app.php:
+    header('Access-Control-Allow-Origin: *');
+    header('Access-Control-Allow-Methods: *');
+    header('Access-Control-Allow-Headers: *');
 
 La solucion elegante es hacer un middleware y que envie el header en cada peticion

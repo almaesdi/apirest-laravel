@@ -12,7 +12,6 @@ class UserController extends Controller
 {
 
     public function register(Request $request){
-        header('Access-Control-Allow-Origin: *');
         //header('Access-Control-Allow-Origin: *');
         //header("Access-Control-Allow-Headers: X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Request-Method");
         //header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
@@ -42,7 +41,7 @@ class UserController extends Controller
             if (User::where('email', $email)->first()){
                 //Usuario No creado
                 $data = array(
-                    'status' => 'Error',
+                    'status' => 'error',
                     'code' => '400',
                     'message' => 'Usuario No creado'
                 );
@@ -50,7 +49,7 @@ class UserController extends Controller
                 $user->save();
                 //Usuario Creado
                 $data = array(
-                    'status' => 'Success',
+                    'status' => 'success',
                     'code' => '200',
                     'message' => 'Usuario creado'
                 );
@@ -59,7 +58,7 @@ class UserController extends Controller
 
         }else{
             $data = array(
-                'status' => 'Error',
+                'status' => 'error',
                 'code' => '400',
                 'message' => 'Usuario No creado, Datos Obligatorios Null'
             );
@@ -69,7 +68,6 @@ class UserController extends Controller
     }
 
     public function login(Request $request){
-        header('Access-Control-Allow-Origin: *');
         $jwtAuthHelper = new JwtAuthHelper();
 
         //Recojemos las variables request, debiese ser un JSON

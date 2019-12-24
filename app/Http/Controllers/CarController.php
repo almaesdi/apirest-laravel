@@ -21,13 +21,21 @@ class CarController extends Controller
     }
 
     public function show($id){
-        $car = Car::find($id)->load('user'); //Traera todos los autos y el <User></User>
-
-        return response()->json(array(
+        $car = Car::find($id);
+        if(is_object($car)){
+            $car = $car->load('user'); //Traera el auto y el <User></User>
+            return response()->json(array(
                 'car' => $car,
                 'status' => 'success',
-            )
-        );
+                )
+            );
+        }else{
+            return response()->json(array(
+                'message' => 'El vehiculo no existe',
+                'status' => 'error',
+                )
+            );
+        }
     }
 
     public function store(Request $request){
@@ -115,8 +123,15 @@ class CarController extends Controller
                 return response()->json($validate->errors(),400);
             }
 
+            /*Antes de guardar, retiro todos los campos que no debo actualizar*/
+            $json_array = json_decode($json,true);
+            unset($json_array['id']);
+            unset($json_array['user']);
+            unset($json_array['user_id']);
+            unset($json_array['created_at']);
 
-            $car = Car::where('id',$id)->update(json_decode($json,true)); //Traera todos los autos y el <User></User>
+
+            $car = Car::where('id',$id)->update($json_array); //Traera todos los autos y el <User></User>
 
             $data = array(
                 'car' => $params,

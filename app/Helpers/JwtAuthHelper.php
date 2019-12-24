@@ -4,6 +4,8 @@ namespace App\Helpers;
 use Firebase\JWT\JWT;
 use App\User;
 
+use Illuminate\Support\Facades\Log;
+
 class JwtAuthHelper{
 
     //Llave secreta para codificar los token
@@ -59,15 +61,21 @@ class JwtAuthHelper{
     }
 
     public function checkToken($jwt, $getIdentity = false){
+        Log::info("JwtAuthHelper.checkToken:\nToken recibido: ".$jwt);
         $auth = false;
 
         try {
             $decoded = JWT::decode($jwt,$this->key,array('HS256'));
-        }catch(\UnexpectedValueException $e){
+        }catch(\Firebase\JWT\ExpiredException $e){
             $auth = false;
+            Log::info("JwtAuthHelper.checkToken: ExpiredException:\n".$e);
         }catch(\DomainException $e){
+            Log::info("JwtAuthHelper.checkToken: DomainException:\n".$e);
             $auth = false;
-        }
+        }catch(\UnexpectedValueException $e){
+            Log::info("JwtAuthHelper.checkToken: UnexpectedValueException:\n".$e);
+            $auth = false;
+       }
 
         if(isset($decoded) && $decoded && $decoded->sub){
             $auth = true;
